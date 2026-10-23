@@ -1,7 +1,0 @@
-.DS_Store
-.vitepress/dist
-.idea
-*.log
-node_modules
-logs
-npm-debug.log*

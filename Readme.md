@@ -44,16 +44,65 @@ You can sponsor stylus ongoing development via [opencollective](https://opencoll
 
 ## Installation
 
+Stylus is a Go module. Build the command from a checkout with Go 1.23 or newer:
+
 ```bash
-$ npm install stylus -g
+$ CGO_ENABLED=0 go build -o stylus ./cmd/stylus
+```
+
+or install it straight from the module path:
+
+```bash
+$ go install github.com/stylus/stylus/cmd/stylus@latest
 ```
 
 ## Basic Usage
-Watch and compile a stylus file from command line with 
+
+Compile a stylus file from the command line with
+
 ```bash
-stylus -w style.styl -o style.css
+stylus style.styl -o css
 ```
-You can also [try all stylus features on stylus-lang.com](http://stylus-lang.com/try.html), build something with stylus on [codepen](http://codepen.io) or [RunKit](https://npm.runkit.com/stylus)
+
+or write the CSS to standard output with
+
+```bash
+stylus --print style.styl
+```
+
+Stylus also reads from standard input when no file is given:
+
+```bash
+cat style.styl | stylus --compress > style.css
+```
+
+Run `stylus --help` for the full list of options.
+
+### Using the compiler from Go
+
+```go
+css, err := stylus.NewRenderer(source, &stylus.Options{Filename: "style.styl"}).Render()
+```
+
+`stylus.Options` carries the same settings as the command-line options:
+`Compress`, `Linenos`, `Paths`, `IncludeCSS`, `ResolveURL`, `Prefix` and the rest.
+
+### Tests
+
+```bash
+$ go test ./...
+```
+
+The integration tests compile every stylesheet under `test/cases` and compare the
+result with the `.css` file beside it, as the original test suite did.
+
+### Documentation
+
+The language reference lives under `docs/` as plain Markdown; the Node site
+generator that used to build it from those files went with the rest of the npm
+tooling.
+
+You can also [try all stylus features on stylus-lang.com](http://stylus-lang.com/try.html).
 
 ### Community modules
 
